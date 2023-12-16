@@ -1,0 +1,122 @@
+.navbar h1 {
+  font-size: 1.2em;
+  line-height: 1.1;
+}
+
+.navbar h1 a.active {
+  color: rgb(0, 0, 0) !important;
+}
+
+.navbar h1 {
+  font-size: 1.8em;
+  color: rgb(0, 0, 0) !important;
+}
+
+.navbar a {
+  font-weight: 500;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+.navbar a:hover {
+  color: #2b4bd8;
+  text-decoration: none;
+}
+
+.navbar a.active {
+  color: #2b4bd8 !important;
+}
+
+h1 {
+  font-size: 2.2em;
+  line-height: 1.1;
+}
+
+.add-student-text {
+  position: relative;
+  bottom: -3.7rem;
+  left: 1.5rem;
+  background-color: #ffff;
+  max-width: 6rem;
+  padding-left: 5px;
+}
+
+.student-table-text {
+  position: relative;
+  bottom: -1.6rem;
+  right: -1.3rem;
+  background-color: #ffff;
+  max-width: 7.2rem;
+  padding-left: 5px;
+}
+
+.add-class-text {
+  position: relative;
+  bottom: -3.7rem;
+  left: 1.5rem;
+  background-color: #ffff;
+  max-width: 7rem;
+  padding-left: 5px;
+}
+
+.classroom-table-text {
+  position: relative;
+  bottom: -1.6rem;
+  right: -1.3rem;
+  background-color: #ffff;
+  max-width: 8.3rem;
+  padding-left: 5px;
+}
+
+.add-subject-text {
+  position: relative;
+  bottom: -3.7rem;
+  left: 1.5rem;
+  background-color: #ffff;
+  max-width: 6rem;
+  padding-left: 5px;
+}
+
+.subject-table-text {
+  position: relative;
+  bottom: -1.6rem;
+  right: -1.3rem;
+  background-color: #ffff;
+  max-width: 8.4rem;
+  padding-left: 5px;
+}
+
+.alc-sub-text {
+  position: relative;
+  bottom: -3.7rem;
+  left: 1.5rem;
+  background-color: #ffff;
+  max-width: 7.6rem;
+  padding-left: 5px;
+}
+
+.alc-subject-text {
+  position: relative;
+  bottom: -1.6rem;
+  right: -1.3rem;
+  background-color: #ffff;
+  max-width: 11rem;
+  padding-left: 5px;
+}
+
+.alc-class-text {
+  position: relative;
+  bottom: -3.7rem;
+  left: 1.5rem;
+  background-color: #ffff;
+  max-width: 8.9rem;
+  padding-left: 5px;
+}
+
+.alc-classroom-text {
+  position: relative;
+  bottom: -1.6rem;
+  right: -1.3rem;
+  background-color: #ffff;
+  max-width: 12.2rem;
+  padding-left: 5px;
+}
