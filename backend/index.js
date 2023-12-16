@@ -1,5 +1,5 @@
+import * as path from "path";
 import express from "express";
-import cors from "cors";
 import colors from "colors";
 import dotenv from "dotenv";
 import { dirname } from "path";
@@ -15,7 +15,9 @@ import errorHandler from "./middleware/error.middleware.js";
 
 dotenv.config();
 
+// Get the file path of the current module
 const __filename = fileURLToPath(import.meta.url);
+// Get the directory name of the current module
 const __dirname = dirname(__filename);
 
 connectDB();
