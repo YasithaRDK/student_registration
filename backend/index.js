@@ -39,10 +39,12 @@ app.use("/api/allocate-subjects", allocateSubjectRouter);
 
 // Serve frontend
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   app.get("*", (req, res) =>
-    res.send(path.join(__dirname, "client", "dist", "index.html"))
+    res.sendFile(
+      path.resolve(__dirname, "../", "frontend", "dist", "index.html")
+    )
   );
 } else {
   app.get("/", (req, res) => res.send("Please set to production"));
