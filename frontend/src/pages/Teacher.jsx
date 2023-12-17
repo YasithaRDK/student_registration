@@ -5,9 +5,16 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import TeacherForm from "../components/teacher/TeacherForm";
 import TeacherTable from "../components/teacher/TeacherTable";
+import { validateTeacherForm } from "../validation/teacherFormValidation";
 
 const Teacher = () => {
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    contactNo: "",
+    email: "",
+  });
+  const [formErrors, setFormErrors] = useState({
     firstName: "",
     lastName: "",
     contactNo: "",
@@ -17,10 +24,14 @@ const Teacher = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [teacherId, setTeacherId] = useState(null);
 
-  const { firstName, lastName, contactNo, email } = formData;
-
   const resetForm = () => {
     setFormData({
+      firstName: "",
+      lastName: "",
+      contactNo: "",
+      email: "",
+    });
+    setFormErrors({
       firstName: "",
       lastName: "",
       contactNo: "",
@@ -153,15 +164,18 @@ const Teacher = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!firstName || !lastName || !contactNo || !email) {
-      toast.error("*All fields are required");
-    } else {
-      const data = { firstName, lastName, contactNo, email };
+    const errors = validateTeacherForm(formData);
+
+    if (Object.keys(errors).length === 0) {
+      // No validation errors, proceed with form submission
       if (isEditing) {
         updateTeacher();
       } else {
-        addTeacher(data);
+        addTeacher(formData);
       }
+    } else {
+      // There are validation errors, update the formErrors state
+      setFormErrors(errors);
     }
   };
 
@@ -179,6 +193,7 @@ const Teacher = () => {
         onChange={onChange}
         onSubmit={onSubmit}
         onClickReset={onClickReset}
+        formErrors={formErrors}
       />
       <TeacherTable
         teacherDetails={teacherDetails}

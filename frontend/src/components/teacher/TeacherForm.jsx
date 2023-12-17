@@ -15,6 +15,7 @@ const TeacherForm = ({
   onChange,
   formData,
   onClickReset,
+  formErrors,
 }) => {
   const { firstName, lastName, contactNo, email } = formData;
   return (
@@ -36,8 +37,8 @@ const TeacherForm = ({
                     value={firstName}
                     onChange={onChange}
                     placeholder="Enter First Name"
-                    required
                   />
+                  <div className="text-danger mt-1">{formErrors.firstName}</div>
                 </Col>
               </FormGroup>
             </Col>
@@ -52,8 +53,8 @@ const TeacherForm = ({
                     value={lastName}
                     onChange={onChange}
                     placeholder="Enter Last Name"
-                    required
                   />
+                  <div className="text-danger mt-1">{formErrors.lastName}</div>
                 </Col>
               </FormGroup>
             </Col>
@@ -70,8 +71,8 @@ const TeacherForm = ({
                     value={contactNo}
                     onChange={onChange}
                     placeholder="Enter Contact Number"
-                    required
                   />
+                  <div className="text-danger mt-1">{formErrors.contactNo}</div>
                 </Col>
               </FormGroup>
             </Col>
@@ -82,14 +83,14 @@ const TeacherForm = ({
                 </Label>
                 <Col sm={8}>
                   <Input
-                    type="email"
+                    type="text"
                     id="email"
                     name="email"
                     value={email}
                     onChange={onChange}
                     placeholder="Enter Email"
-                    required
                   />
+                  <div className="text-danger mt-1">{formErrors.email}</div>
                 </Col>
               </FormGroup>
             </Col>
@@ -111,6 +112,7 @@ const TeacherForm = ({
 TeacherForm.propTypes = {
   isEditing: PropTypes.bool.isRequired,
   formData: PropTypes.object.isRequired,
+  formErrors: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onClickReset: PropTypes.func.isRequired,
