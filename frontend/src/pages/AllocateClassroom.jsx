@@ -5,22 +5,18 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { toast } from "react-toastify";
 import AllocateClassroomForm from "../components/allocateClassroom/AllocateClassroomForm";
 import AllocateClassroomTable from "../components/allocateClassroom/AllocateClassroomTable";
+import { validateAllocateClassroomForm } from "../validation/allocateClassroom.validation";
 
 const AllocateClassroom = () => {
   const [formData, setFormData] = useState({
     teacher: "",
     classroom: "",
   });
+  const [formErrors, setFormErrors] = useState({
+    teacher: "",
+    classroom: "",
+  });
   const [allocateClassroomDetails, setAllocateClassroomDetails] = useState([]);
-
-  const { teacher, classroom } = formData;
-
-  const resetForm = () => {
-    setFormData({
-      teacher: "",
-      classroom: "",
-    });
-  };
 
   const getAllAllocateClassroom = () => {
     axios
@@ -101,12 +97,22 @@ const AllocateClassroom = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!teacher || !classroom) {
-      toast.error("*All fields are required");
+    const errors = validateAllocateClassroomForm(formData);
+    if (Object.keys(errors).length === 0) {
+      addAllocateClassroom(formData);
     } else {
-      const data = { teacher, classroom };
-      addAllocateClassroom(data);
+      setFormErrors(errors);
     }
+  };
+  const resetForm = () => {
+    setFormData({
+      teacher: "",
+      classroom: "",
+    });
+    setFormErrors({
+      teacher: "",
+      classroom: "",
+    });
   };
 
   return (
@@ -115,6 +121,7 @@ const AllocateClassroom = () => {
         onChange={onChange}
         onSubmit={onSubmit}
         formData={formData}
+        formErrors={formErrors}
       />
 
       <AllocateClassroomTable

@@ -54,6 +54,7 @@ const Teacher = () => {
   };
 
   const onGetTeacher = (id) => {
+    resetForm();
     axios
       .get(`/api/teachers/${id}`)
       .then((response) => {
@@ -95,7 +96,7 @@ const Teacher = () => {
       });
   };
 
-  const updateTeacher = async () => {
+  const updateTeacher = async (formData) => {
     axios
       .put(`/api/teachers/${teacherId}`, formData)
       .then((response) => {
@@ -167,14 +168,12 @@ const Teacher = () => {
     const errors = validateTeacherForm(formData);
 
     if (Object.keys(errors).length === 0) {
-      // No validation errors, proceed with form submission
       if (isEditing) {
-        updateTeacher();
+        updateTeacher(formData);
       } else {
         addTeacher(formData);
       }
     } else {
-      // There are validation errors, update the formErrors state
       setFormErrors(errors);
     }
   };

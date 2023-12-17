@@ -15,6 +15,7 @@ const ClassroomForm = ({
   value,
   setClassroomName,
   onClickReset,
+  formErrors,
 }) => {
   return (
     <>
@@ -34,8 +35,10 @@ const ClassroomForm = ({
                   value={value}
                   placeholder="Enter Classroom"
                   onChange={(e) => setClassroomName(e.target.value)}
-                  required
                 />
+                <div className="text-danger mt-1">
+                  {formErrors.classroomName}
+                </div>
               </Col>
               <Col sm={3}>
                 <div>
@@ -67,6 +70,7 @@ const ClassroomForm = ({
 ClassroomForm.propTypes = {
   isEditing: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
+  formErrors: PropTypes.object.isRequired,
   setClassroomName: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onClickReset: PropTypes.func.isRequired,

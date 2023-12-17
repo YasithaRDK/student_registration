@@ -33,7 +33,7 @@ export const addTeacher = asyncHandler(async (req, res) => {
 
 //Get all teacher records
 export const getAllTeachers = asyncHandler(async (req, res) => {
-  const teachers = await teacherModel.find({ status: "98" });
+  const teachers = await teacherModel.find({ status: "98" }).sort({ _id: -1 });
   res.json(teachers);
 });
 

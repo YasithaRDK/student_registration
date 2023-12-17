@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const ClassDropdown = ({ value, onChange }) => {
+const ClassDropdown = ({ value, onChange, formErrors = {} }) => {
   const [classroomDetails, setClassroomDetails] = useState([]);
   useEffect(() => {
     getClassrooms();
@@ -38,6 +38,7 @@ const ClassDropdown = ({ value, onChange }) => {
                 </option>
               ))}
           </Input>
+          <div className="text-danger mt-1">{formErrors.classroom}</div>
         </Col>
       </FormGroup>
     </>
@@ -46,6 +47,7 @@ const ClassDropdown = ({ value, onChange }) => {
 
 ClassDropdown.propTypes = {
   value: PropTypes.string.isRequired,
+  formErrors: PropTypes.object,
   onChange: PropTypes.func.isRequired,
 };
 

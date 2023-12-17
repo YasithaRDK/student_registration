@@ -5,9 +5,13 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { toast } from "react-toastify";
 import ClassroomForm from "../components/classroom/ClassroomForm";
 import ClassroomTable from "../components/classroom/ClassroomTable";
+import { validateClassroomForm } from "../validation/classroomFormValidation";
 
 const Classroom = () => {
   const [classroomName, setClassroomName] = useState("");
+  const [formErrors, setFormErrors] = useState({
+    classroomName: "",
+  });
   const [classroomDetails, setClassroomDetails] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [classroomId, setClassroomId] = useState(null);
@@ -26,6 +30,7 @@ const Classroom = () => {
   };
 
   const onGetClassroom = async (id) => {
+    onClickReset();
     axios
       .get(`/api/classrooms/${id}`)
       .then((response) => {
@@ -50,7 +55,7 @@ const Classroom = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Record added successfully");
-          setClassroomName("");
+          onClickReset();
           getAllClassroom();
         }
       })
@@ -68,9 +73,7 @@ const Classroom = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Record Updated");
-          setClassroomName("");
-          setIsEditing(false);
-          setClassroomId(null);
+          onClickReset();
           getAllClassroom();
         }
       })
@@ -124,20 +127,24 @@ const Classroom = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!classroomName) {
-      toast.error("*All fields are required");
-    } else {
-      const data = { classroomName };
+    const errors = validateClassroomForm(classroomName);
+    if (Object.keys(errors).length === 0) {
       if (isEditing) {
-        updateClassroom(data);
+        updateClassroom({ classroomName });
       } else {
-        addClassroom(data);
+        addClassroom({ classroomName });
       }
+    } else {
+      setFormErrors(errors);
     }
   };
 
   const onClickReset = () => {
     setClassroomName("");
+
+    setFormErrors({
+      classroomName: "",
+    });
     setClassroomId(null);
     setIsEditing(false);
   };
@@ -150,6 +157,7 @@ const Classroom = () => {
         value={classroomName}
         setClassroomName={setClassroomName}
         onClickReset={onClickReset}
+        formErrors={formErrors}
       />
 
       <ClassroomTable

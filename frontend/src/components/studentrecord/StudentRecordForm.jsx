@@ -1,6 +1,6 @@
 import { Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import PropTypes from "prop-types";
-import StudentDropdown from "../StudentDropdown";
+import StudentDropdown from "../dropdowns/StudentDropdown";
 
 const StudentRecordForm = ({
   handleStudentChange,

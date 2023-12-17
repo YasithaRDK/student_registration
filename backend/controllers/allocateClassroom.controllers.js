@@ -75,6 +75,9 @@ export const getAllAllocateClassroom = asyncHandler(async (req, res) => {
         },
       },
     },
+    {
+      $sort: { teacher: 1 },
+    },
   ]);
 
   res.json(allocateClassroom);

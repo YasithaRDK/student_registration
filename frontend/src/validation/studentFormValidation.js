@@ -1,4 +1,4 @@
-export const validateTeacherForm = (formData) => {
+export const validateStudentForm = (formData) => {
   const errors = {};
 
   if (!formData.firstName.trim()) {
@@ -13,6 +13,12 @@ export const validateTeacherForm = (formData) => {
     errors.lastName = "Last name must be at least 3 characters";
   }
 
+  if (!formData.contactPerson.trim()) {
+    errors.contactPerson = "Contact Person name is required";
+  } else if (formData.contactPerson.trim().length < 3) {
+    errors.contactPerson = "Name must be at least 3 characters";
+  }
+
   if (!formData.contactNo.trim()) {
     errors.contactNo = "Contact number is required";
   } else if (!isValidContactNumber(formData.contactNo)) {
@@ -25,6 +31,17 @@ export const validateTeacherForm = (formData) => {
     errors.email = "Invalid email format";
   }
 
+  if (!formData.birthDay.trim()) {
+    errors.birthDay = "Date of Birth is required";
+  }
+
+  if (!formData.age.trim()) {
+    errors.age = "Age is required";
+  }
+
+  if (!formData.classroom.trim()) {
+    errors.classroom = "Classroom is required";
+  }
   return errors;
 };
 

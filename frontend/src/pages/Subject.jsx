@@ -5,9 +5,13 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { toast } from "react-toastify";
 import SubjectForm from "../components/subject/SubjectForm";
 import SubjectTable from "../components/subject/SubjectTable";
+import { validateSubjectForm } from "../validation/subjectFormValidation";
 
 const Subject = () => {
   const [subjectName, setSubjectName] = useState("");
+  const [formErrors, setFormErrors] = useState({
+    subjectName: "",
+  });
   const [subjectDetails, setSubjectDetails] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [subjectId, setSubjectId] = useState(null);
@@ -26,6 +30,7 @@ const Subject = () => {
   };
 
   const onGetSubject = async (id) => {
+    onClickReset();
     axios
       .get(`/api/subjects/${id}`)
       .then((response) => {
@@ -50,7 +55,7 @@ const Subject = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Record added successfully");
-          setSubjectName("");
+          onClickReset();
           getAllSubject();
         }
       })
@@ -68,9 +73,7 @@ const Subject = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Record Updated");
-          setSubjectName("");
-          setIsEditing(false);
-          setSubjectId(null);
+          onClickReset();
           getAllSubject();
         }
       })
@@ -124,15 +127,15 @@ const Subject = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!subjectName) {
-      toast.error("*All fields are required");
-    } else {
-      const data = { subjectName };
+    const errors = validateSubjectForm(subjectName);
+    if (Object.keys(errors).length === 0) {
       if (isEditing) {
-        updateSubject(data);
+        updateSubject({ subjectName });
       } else {
-        addSubject(data);
+        addSubject({ subjectName });
       }
+    } else {
+      setFormErrors(errors);
     }
   };
 
@@ -140,6 +143,9 @@ const Subject = () => {
     setSubjectName("");
     setSubjectId(null);
     setIsEditing(false);
+    setFormErrors({
+      subjectName: "",
+    });
   };
 
   return (
@@ -150,6 +156,7 @@ const Subject = () => {
         value={subjectName}
         setSubjectName={setSubjectName}
         onClickReset={onClickReset}
+        formErrors={formErrors}
       />
       <SubjectTable
         subjectDetails={subjectDetails}

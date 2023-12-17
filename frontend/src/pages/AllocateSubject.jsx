@@ -5,22 +5,18 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { toast } from "react-toastify";
 import AllocateSubjectForm from "../components/allocateSubject/AllocateSubjectForm";
 import AllocateSubjectTable from "../components/allocateSubject/AllocateSubjectTable";
+import { validateAllocateSubjectForm } from "../validation/allocateSubjectFormValidation";
 
 const AllocateSubject = () => {
   const [formData, setFormData] = useState({
     teacher: "",
     subject: "",
   });
+  const [formErrors, SetFormErrors] = useState({
+    teacher: "",
+    subject: "",
+  });
   const [allocateSubject, setAllocateSubject] = useState([]);
-
-  const { teacher, subject } = formData;
-
-  const resetForm = () => {
-    setFormData({
-      teacher: "",
-      subject: "",
-    });
-  };
 
   const getAllAllocateSubjects = () => {
     axios
@@ -102,12 +98,23 @@ const AllocateSubject = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!teacher || !subject) {
-      toast.error("*All fields are required");
+    const errors = validateAllocateSubjectForm(formData);
+    if (Object.keys(errors).length === 0) {
+      addAllocateSubject(formData);
     } else {
-      const data = { teacher, subject };
-      addAllocateSubject(data);
+      SetFormErrors(errors);
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      teacher: "",
+      subject: "",
+    });
+    SetFormErrors({
+      teacher: "",
+      subject: "",
+    });
   };
 
   return (
@@ -116,6 +123,7 @@ const AllocateSubject = () => {
         onChange={onChange}
         onSubmit={onSubmit}
         formData={formData}
+        formErrors={formErrors}
       />
 
       <AllocateSubjectTable

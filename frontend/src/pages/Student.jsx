@@ -6,9 +6,20 @@ import { toast } from "react-toastify";
 import { format } from "date-fns";
 import StudentForm from "../components/student/StudentForm";
 import StudentTable from "../components/student/StudentTable";
+import { validateStudentForm } from "../validation/studentFormValidation";
 
 const Student = () => {
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    contactPerson: "",
+    contactNo: "",
+    email: "",
+    birthDay: "",
+    age: "",
+    classroom: "",
+  });
+  const [formErrors, setFormErrors] = useState({
     firstName: "",
     lastName: "",
     contactPerson: "",
@@ -22,19 +33,19 @@ const Student = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [studentId, setStudentId] = useState(null);
 
-  const {
-    firstName,
-    lastName,
-    contactPerson,
-    contactNo,
-    email,
-    birthDay,
-    age,
-    classroom,
-  } = formData;
-
   const resetForm = () => {
     setFormData({
+      firstName: "",
+      lastName: "",
+      contactPerson: "",
+      contactNo: "",
+      email: "",
+      birthDay: "",
+      age: "",
+      classroom: "",
+    });
+
+    setFormErrors({
       firstName: "",
       lastName: "",
       contactPerson: "",
@@ -66,6 +77,7 @@ const Student = () => {
   }, [setStudentDetails]);
 
   const onGetStudent = (id) => {
+    resetForm();
     axios
       .get(`/api/students/${id}`)
       .then((response) => {
@@ -216,35 +228,18 @@ const Student = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (
-      !firstName ||
-      !lastName ||
-      !contactPerson ||
-      !contactNo ||
-      !email ||
-      !birthDay ||
-      !age ||
-      !classroom
-    ) {
-      toast.error("*All fields are required");
-    } else {
-      const data = {
-        firstName,
-        lastName,
-        contactPerson,
-        contactNo,
-        email,
-        birthDay,
-        age,
-        classroom,
-      };
+    const errors = validateStudentForm(formData);
+    if (Object.keys(errors).length === 0) {
       if (isEditing) {
         updateStudent();
       } else {
-        addStudent(data);
+        addStudent(formData);
       }
+    } else {
+      setFormErrors(errors);
     }
   };
+
   const onClickReset = () => {
     resetForm();
     setIsEditing(false);
@@ -259,6 +254,7 @@ const Student = () => {
         onChange={onChange}
         onSubmit={onSubmit}
         onClickReset={onClickReset}
+        formErrors={formErrors}
       />
 
       <StudentTable

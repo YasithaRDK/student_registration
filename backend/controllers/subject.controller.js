@@ -24,7 +24,7 @@ export const addSubject = asyncHandler(async (req, res) => {
 
 //Get all subject records
 export const getAllSubject = asyncHandler(async (req, res) => {
-  const subject = await subjectModel.find({ status: "98" });
+  const subject = await subjectModel.find({ status: "98" }).sort({ _id: -1 });
   res.json(subject);
 });
 

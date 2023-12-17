@@ -15,6 +15,7 @@ const SubjectForm = ({
   value,
   setSubjectName,
   onClickReset,
+  formErrors,
 }) => {
   return (
     <>
@@ -34,8 +35,8 @@ const SubjectForm = ({
                   value={value}
                   placeholder="Enter Subject"
                   onChange={(e) => setSubjectName(e.target.value)}
-                  required
                 />
+                <div className="text-danger mt-1">{formErrors.subjectName}</div>
               </Col>
               <Col sm={3}>
                 <div>
@@ -67,6 +68,7 @@ const SubjectForm = ({
 SubjectForm.propTypes = {
   isEditing: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
+  formErrors: PropTypes.object.isRequired,
   setSubjectName: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onClickReset: PropTypes.func.isRequired,

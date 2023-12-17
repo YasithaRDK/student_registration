@@ -1,9 +1,14 @@
 import { Button, Col, Container, Row } from "reactstrap";
-import TeacherDropdown from "../TeacherDropdown";
-import ClassDropdown from "../ClassDropdown";
+import TeacherDropdown from "../dropdowns/TeacherDropdown";
+import ClassDropdown from "../dropdowns/ClassDropdown";
 import PropTypes from "prop-types";
 
-const AllocateClassroomForm = ({ onSubmit, onChange, formData }) => {
+const AllocateClassroomForm = ({
+  onSubmit,
+  onChange,
+  formData,
+  formErrors,
+}) => {
   const { teacher, classroom } = formData;
   return (
     <Container>
@@ -11,10 +16,18 @@ const AllocateClassroomForm = ({ onSubmit, onChange, formData }) => {
       <form onSubmit={onSubmit} className="border rounded p-4 mt-5">
         <Row>
           <Col md="6">
-            <TeacherDropdown value={teacher} onChange={onChange} />
+            <TeacherDropdown
+              value={teacher}
+              onChange={onChange}
+              formErrors={formErrors}
+            />
           </Col>
           <Col md="6">
-            <ClassDropdown value={classroom} onChange={onChange} />
+            <ClassDropdown
+              value={classroom}
+              onChange={onChange}
+              formErrors={formErrors}
+            />
           </Col>
         </Row>
         <Button color="primary" type="submit">
@@ -27,6 +40,7 @@ const AllocateClassroomForm = ({ onSubmit, onChange, formData }) => {
 
 AllocateClassroomForm.propTypes = {
   formData: PropTypes.object.isRequired,
+  formErrors: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
