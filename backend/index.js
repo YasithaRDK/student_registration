@@ -1,9 +1,8 @@
-import * as path from "path";
 import express from "express";
+import cors from "cors";
 import colors from "colors";
 import dotenv from "dotenv";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import path from "path";
 import connectDB from "./config/db.js";
 import studentRouter from "./routes/student.routes.js";
 import classroomRouter from "./routes/classroom.routes.js";
@@ -15,14 +14,17 @@ import errorHandler from "./middleware/error.middleware.js";
 
 dotenv.config();
 
-// Get the file path of the current module
-const __filename = fileURLToPath(import.meta.url);
-// Get the directory name of the current module
-const __dirname = dirname(__filename);
-
 connectDB();
 
+const __dirname = path.resolve();
+
 const app = express();
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.send(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,13 +37,7 @@ app.use("/api/teachers", teacherRouter);
 app.use("/api/subjects", subjectRouter);
 app.use("/api/allocate-classrooms", allocateClassroomRouter);
 app.use("/api/allocate-subjects", allocateSubjectRouter);
-
-// Serve frontend
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-});
+app.all("*", (req, res) => res.send("That route doesn't exist"));
 
 app.use(errorHandler);
 
