@@ -31,7 +31,7 @@ app.use("/api/teachers", teacherRouter);
 app.use("/api/subjects", subjectRouter);
 app.use("/api/allocate-classrooms", allocateClassroomRouter);
 app.use("/api/allocate-subjects", allocateSubjectRouter);
-app.all("*", (req, res) => res.send("That route doesn't exist"));
+// app.all("*", (req, res) => res.send("That route doesn't exist"));
 
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
